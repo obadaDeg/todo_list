@@ -7,4 +7,169 @@ body,
   
 }
 
+:root{
+  --mainColor: #16A3B7;
+  --secondColor: #E3E3E3;
+  --modifyColor: #F7C41B;
+  --deleteColor: #F74B4B;
+  --bodyColor: white;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  background-color: var(--bodyColor);
+}
+
+.content{
+  padding: 0 1.5em;
+}
+
+.header-title{
+  font-size: 1.5em;
+}
+
+.input-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--secondColor);
+  border-radius: 3px;
+}
+
+.input-group{
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  width: 95%;
+}
+
+.input-group-icon{
+  background-color: var(--mainColor);
+  color: white;
+  border-right: none;
+  border-radius: 3px 0 0 3px;
+}
+
+.todo-input-field{
+  border: 1px solid var(--secondColor);
+  border-radius: 0 3px 3px 0;
+  width: 100%;
+}
+
+.input-group-icon i,.todo-input-field::placeholder{
+  padding: 0.5em 0.7em;
+}
+
+.todo-input__submit,.filter-btn,.delete-btn{
+  background-color: var(--mainColor);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  width: 95%;
+  padding: 0.6em 1em;
+  margin: 1em;
+}
+
+/*Section 2*/
+.list-action-btns{
+  display: flex;
+  justify-content: center;
+  column-gap: 1em;
+}
+
+.filter-btn{
+  margin: 0;
+}
+
+.todo-list-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1em;
+  margin-top: 3em;
+}
+
+.task{
+  width: 100%;
+}
+
+.task-flex{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6em 1em;
+  align-items: center;
+  border: 1px solid var(--secondColor);
+}
+
+.task:first-of-type{
+  border-radius: 3px 3px 0 0;
+}
+
+.task-operations{
+  display: flex;
+  column-gap: 0.6em;
+  align-items: center;
+}
+
+.task-operations button{
+  border: none;
+  background-color: var(--bodyColor);
+  padding: 0;
+}
+
+.task-modify i{
+  color: var(--modifyColor);
+}
+
+.task-delete i{
+  color: var(--deleteColor);
+}
+
+.task-checkbox{
+  margin: 0;
+}
+
+.list-actions-btns{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  column-gap: 1.5em;
+}
+
+.delete-btn{
+  background-color: var(--deleteColor);
+  margin: 0;
+}
+
+.task-checkbox{
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid var(--secondColor);
+  background-color: var(--bodyColor);
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+
+.task-operations input[type="checkbox"]:checked {
+  background-color: var(--bodyColor);
+  border: 1px solid #3E9551;
+}
+
+.task-operations input[type="checkbox"]:checked::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Free';
+  color: #3E9551;
+  font-weight: 900;
+  font-size: 0.7em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+
 
