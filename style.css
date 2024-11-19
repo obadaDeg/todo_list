@@ -11,6 +11,7 @@ body,
   --mainColorHover: #06707e;
   --secondColor: #c7c7c7;
   --modifyColor: #ffc207;
+  --modifyColorHover:#dca707;
   --deleteColor: #db3245;
   --deleteColorHover: #a52a3f;
   --checkboxColor: #0e7c26;
@@ -142,8 +143,12 @@ body {
   border: 0.11em solid var(--secondColor);
 }
 
-.task:first-of-type {
+.task-flex:first-of-type {
   border-radius: 0.2em 0.2em 0 0;
+}
+
+.task-flex:last-of-type {
+  border-radius: 0 0 0.2em 0.2em;
 }
 
 .task-operations {
@@ -163,7 +168,7 @@ body {
 }
 
 .task-modify i:hover {
-  color: var(--checkboxColor);
+  color: var(--modifyColorHover);
 }
 
 .task-delete i {
@@ -178,9 +183,6 @@ body {
   margin: 0;
   border-radius: .15em;
 }
-
-
-
 
 .list-actions-btns {
   display: flex;
