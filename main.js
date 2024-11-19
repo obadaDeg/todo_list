@@ -82,6 +82,10 @@ class Task {
 
 const tasks = Task.loadTasks();
 
+tasks.push(new Task("Task 1"));
+tasks.push(new Task("Task 2"));
+tasks.push(new Task("Task 3"));
+
 const tasksContainer = document.querySelector(".todo-list-container");
 const taskInput = document.querySelector(".todo-input-field");
 
@@ -91,3 +95,5 @@ const renderTasks = (tasks) => {
     tasksContainer.appendChild(task.createHTML());
   });
 };
+
+renderTasks(tasks);
