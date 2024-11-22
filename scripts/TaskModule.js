@@ -1,9 +1,13 @@
-class Task {
+export default class Task {
+  static getDefaultTitle() {
+    return "Task";
+  }
+
   constructor(title = Task.getDefaultTitle()) {
     this.title = title;
     this.done = false;
     this._taskID = Task.count++;
-    console.log("Task constructor");
+    // console.log("Task constructor");
   }
 
   toggle() {
@@ -18,23 +22,23 @@ class Task {
     const task = document.createElement("div");
     task.classList.add("task");
     task.innerHTML = `
-            <div class="task-flex">
-              <div class="task-content">
-                <span class="task-text">${this.title}</span>
+              <div class="task-flex">
+                <div class="task-content">
+                  <span class="task-text">${this.title}</span>
+                </div>
+                <div class="task-operations">
+                  <input type="checkbox" class="task-checkbox" ${
+                    this.done ? "ckecked" : ""
+                  } />
+                  <button class="task-modify">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button class="task-delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
               </div>
-              <div class="task-operations">
-                <input type="checkbox" class="task-checkbox" ${
-                  this.done ? "ckecked" : ""
-                } />
-                <button class="task-modify">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="task-delete">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </div>
-        `;
+          `;
     return task;
   }
 
@@ -50,17 +54,19 @@ class Task {
 
   static count = 1;
 
-  static getDefaultTitle() {
-    return "Task";
-  }
-
   static saveTasks(tasks) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 
   static loadTasks() {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
-    return tasks ? tasks : [];
+    const tasksObject = tasks.map((task) => {
+      const newTask = new Task(task.title);
+      newTask.done = task.done;
+      newTask._taskID = task._taskID;
+      return newTask;
+    });
+    return tasksObject ? tasksObject : [];
   }
 
   static clearTasks() {
@@ -79,21 +85,3 @@ class Task {
     return tasks.filter((task) => task._taskID !== taskID);
   }
 }
-
-const tasks = Task.loadTasks();
-
-tasks.push(new Task("Task 1"));
-tasks.push(new Task("Task 2"));
-tasks.push(new Task("Task 3"));
-
-const tasksContainer = document.querySelector(".todo-list-container");
-const taskInput = document.querySelector(".todo-input-field");
-
-const renderTasks = (tasks) => {
-  tasksContainer.innerHTML = "";
-  tasks.forEach((task) => {
-    tasksContainer.appendChild(task.createHTML());
-  });
-};
-
-renderTasks(tasks);
