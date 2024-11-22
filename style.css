@@ -259,3 +259,58 @@ body {
   align-self: flex-start;
 }
 
+.modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--button-text-color);
+  padding: 1em;
+  border-radius: 0.5em;
+  width: 18em;
+  text-align: center;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.4em 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  column-gap: 1em;
+  margin-top: 1em;
+}
+
+.save-btn,.cancel-btn,.ok-btn,.confirm-btn{
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.5em;
+}
+
+.save-btn, .ok-btn{
+  background-color: var(--mainColor);
+  color: white;
+}
+
+.cancel-btn {
+  background-color: var(--deleteColor);
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
