@@ -252,3 +252,10 @@ body {
 }
 
 
+.error {
+  font-size: 0.8em;
+  margin: .5em 1.5em;
+  color: var(--deleteColor);
+  align-self: flex-start;
+}
+
