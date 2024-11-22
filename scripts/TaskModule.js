@@ -59,7 +59,7 @@ export default class Task {
   }
 
   static loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     const tasksObject = tasks.map((task) => {
       const newTask = new Task(task.title);
       newTask.done = task.done;
@@ -71,6 +71,10 @@ export default class Task {
 
   static clearTasks() {
     localStorage.removeItem("tasks");
+  }
+
+  static clearDoneTasks(tasks) {
+    return tasks.filter((task) => !task.done);
   }
 
   static sortTasks(tasks) {
