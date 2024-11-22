@@ -28,7 +28,7 @@ export default class Task {
                 </div>
                 <div class="task-operations">
                   <input type="checkbox" class="task-checkbox" ${
-                    this.done ? "ckecked" : ""
+                    this.done ? "checked" : ""
                   } />
                   <button class="task-modify">
                     <i class="fa-solid fa-pen"></i>

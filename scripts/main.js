@@ -46,22 +46,33 @@ const renderTasks = (tasks) => {
   });
 };
 
-
 tasksContainer.addEventListener("click", (e) => {
   const modifyButton = e.target.closest(".task-modify");
   const deleteButton = e.target.closest(".task-delete");
+  const checkbox = e.target.closest(".task-checkbox");
 
   if (modifyButton) {
-    const taskTitle = modifyButton.closest(".task").querySelector(".task-text").textContent;
+    const taskTitle = modifyButton
+      .closest(".task")
+      .querySelector(".task-text").textContent;
     const task = tasks.find((t) => t.title === taskTitle);
     openRenameModal(task);
   } else if (deleteButton) {
-    const taskTitle = deleteButton.closest(".task").querySelector(".task-text").textContent;
+    const taskTitle = deleteButton
+      .closest(".task")
+      .querySelector(".task-text").textContent;
     const task = tasks.find((t) => t.title === taskTitle);
     openDeleteModal(task);
+  } else if (checkbox) {
+    const taskTitle = checkbox
+      .closest(".task")
+      .querySelector(".task-text").textContent;
+    const task = tasks.find((t) => t.title === taskTitle);
+    task.toggle();
+    Task.saveTasks(tasks);
+    renderTasks(tasks);
   }
 });
-
 
 newTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -129,9 +140,6 @@ deleteAllTasksButtons[1].addEventListener("click", () => {
 
 // asdf
 
-
-
-
 renameInput.addEventListener("input", () => {
   if (renameInput.value !== currentTask.title) {
     saveBtn.classList.remove("hidden");
@@ -154,8 +162,8 @@ saveBtn.addEventListener("click", () => {
   closeModals();
 });
 
-cancelBtn.addEventListener("click", ()=>{
-  okBtn.classList.remove("hidden")
+cancelBtn.addEventListener("click", () => {
+  okBtn.classList.remove("hidden");
   closeModals();
 });
 

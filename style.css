@@ -11,7 +11,7 @@ body,
   --mainColorHover: #06707e;
   --secondColor: #c7c7c7;
   --modifyColor: #ffc207;
-  --modifyColorHover:#dca707;
+  --modifyColorHover: #dca707;
   --deleteColor: #db3245;
   --deleteColorHover: #a52a3f;
   --checkboxColor: #0e7c26;
@@ -106,7 +106,6 @@ body {
   margin: 0;
 }
 
-
 .todo-list-container {
   display: flex;
   flex-direction: column;
@@ -115,11 +114,11 @@ body {
   margin-top: 3em;
   max-height: 45vh;
   overflow-y: auto;
-  padding-right: .2em;
+  padding-right: 0.2em;
 }
 
 .todo-list-container::-webkit-scrollbar {
-  width: 0.1em;  
+  width: 0.1em;
 }
 
 .todo-list-container::-webkit-scrollbar-thumb {
@@ -181,7 +180,7 @@ body {
 
 .task-checkbox {
   margin: 0;
-  border-radius: .15em;
+  border-radius: 0.15em;
 }
 
 .list-actions-btns {
@@ -226,14 +225,10 @@ body {
   border: 0.11em solid var(--deleteColor);
 }
 
-
-
 .task:has(.task-operations input[type="checkbox"]:checked) .task-text {
   text-decoration: line-through;
   color: #953e3e;
 }
-
-
 
 .task-operations input[type="checkbox"]:checked::before {
   content: "\f00c";
@@ -251,10 +246,9 @@ body {
   color: var(--deleteColor);
 }
 
-
 .error {
   font-size: 0.8em;
-  margin: .5em 1.5em;
+  margin: 0.5em 1.5em;
   color: var(--deleteColor);
   align-self: flex-start;
 }
@@ -291,13 +285,17 @@ body {
   margin-top: 1em;
 }
 
-.save-btn,.cancel-btn,.ok-btn,.confirm-btn{
+.save-btn,
+.cancel-btn,
+.ok-btn,
+.confirm-btn {
   padding: 0.5em 1em;
   border: none;
   border-radius: 0.5em;
 }
 
-.save-btn, .ok-btn{
+.save-btn,
+.ok-btn {
   background-color: var(--mainColor);
   color: white;
 }
@@ -310,7 +308,3 @@ body {
 .hidden {
   display: none;
 }
-
-
-
-
