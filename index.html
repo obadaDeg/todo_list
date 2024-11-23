@@ -45,8 +45,8 @@
         </div>
         <div class="todo-list-container"></div>
         <div class="list-actions-btns">
-          <button class="delete-btn">Delete Done Tasks</button>
-          <button class="delete-btn">Delete All Tasks</button>
+          <button class="delete-done-btn">Delete Done Tasks</button>
+          <button class="delete-all-btn">Delete All Tasks</button>
         </div>
       </section>
       <div id="rename-modal" class="modal hidden">
@@ -68,6 +68,26 @@
           <div class="modal-actions">
             <button id="confirm-btn" class="confirm-btn">Confirm</button>
             <button id="cancel-delete-btn" class="cancel-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div id="delete-all-modal" class="modal hidden">
+        <div class="modal-content">
+          <h2>Delete all Tasks</h2>
+          <p>Are you sure you want to delete all the tasks?</p>
+          <div class="modal-actions">
+            <button id="confirm-all-btn" class="confirm-btn">Confirm</button>
+            <button id="cancel-delete-all-btn" class="cancel-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div id="delete-done-modal" class="modal hidden">
+        <div class="modal-content">
+          <h2>Delete done Tasks</h2>
+          <p>Are you sure you want to delete all the done tasks?</p>
+          <div class="modal-actions">
+            <button id="confirm-done-btn" class="confirm-btn">Confirm</button>
+            <button id="cancel-delete-done-btn" class="cancel-btn">Cancel</button>
           </div>
         </div>
       </div>

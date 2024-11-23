@@ -84,7 +84,8 @@ button {
 
 .todo-input__submit,
 .filter-btn,
-.delete-btn {
+.delete-done-btn,
+.delete-all-btn {
   background-color: var(--mainColor);
   color: white;
   border: none;
@@ -196,12 +197,13 @@ button {
   margin: 1em 0;
 }
 
-.delete-btn {
+.delete-done-btn,
+.delete-all-btn {
   background-color: var(--deleteColor);
   margin: 0;
 }
 
-.delete-btn:hover {
+.delete-done-btn:hover,.delete-all-btn:hover{
   background-color: var(--deleteColorHover);
 }
 
