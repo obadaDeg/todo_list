@@ -1,10 +1,12 @@
 import Task from "./TaskModule.js";
+import formValidator from "./formValidator.js";
 
 const tasksContainer = document.querySelector(".todo-list-container");
 const tasks = Task.loadTasks();
 const newTaskForm = document.querySelector(".input-container");
 const newTaskInput = newTaskForm.querySelector("#task-input");
 const errorMessege = document.querySelector(".error");
+const renameErrorMessege = document.querySelector(".rename-error");
 const deleteAllTasksButtons = document.querySelectorAll(".delete-btn");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
@@ -76,22 +78,11 @@ tasksContainer.addEventListener("click", (e) => {
 
 newTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
-  if (!newTaskInput.value) {
-    errorMessege.textContent = "Please enter a task";
-    return;
-  } else if (
-    /^\d/.test(newTaskInput.value) ||
-    /^[!@#$%^&*(),.?":{}|<>_-]/.test(newTaskInput.value)
-  ) {
-    errorMessege.textContent =
-      "Task cannot start with a number or special character";
-    return;
-  } else if (newTaskInput.value.length < 5) {
-    errorMessege.textContent = "Task must be at least 5 characters long";
+  const validationError = formValidator.validateTaskInput(newTaskInput.value.trim());
+  if (validationError) {
+    errorMessege.innerHTML ='<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
     return;
   }
-
   errorMessege.textContent = "";
   const task = new Task(newTaskInput.value.trim());
   tasks.push(task);
@@ -138,8 +129,6 @@ deleteAllTasksButtons[1].addEventListener("click", () => {
   console.log(Task.loadTasks());
 });
 
-// asdf
-
 renameInput.addEventListener("input", () => {
   if (renameInput.value !== currentTask.title) {
     saveBtn.classList.remove("hidden");
@@ -155,6 +144,11 @@ renameInput.addEventListener("input", () => {
 okBtn.addEventListener("click", closeModals);
 
 saveBtn.addEventListener("click", () => {
+  const validationError = formValidator.validateTaskInput(renameInput.value.trim());
+  if (validationError) {
+    renameErrorMessege.innerHTML ='<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
+    return;
+  }
   okBtn.classList.remove("hidden");
   currentTask.edit(renameInput.value.trim());
   Task.saveTasks(tasks);
@@ -163,6 +157,7 @@ saveBtn.addEventListener("click", () => {
 });
 
 cancelBtn.addEventListener("click", () => {
+  renameErrorMessege.textContent = "";
   okBtn.classList.remove("hidden");
   closeModals();
 });

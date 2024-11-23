@@ -26,6 +26,10 @@ body {
   background-color: var(--button-text-color);
 }
 
+button {
+  cursor: pointer;
+}
+
 .content {
   padding: 0 1.5em;
 }
@@ -246,12 +250,13 @@ body {
   color: var(--deleteColor);
 }
 
-.error {
+.error, .rename-error{
   font-size: 0.8em;
   margin: 0.5em 1.5em;
   color: var(--deleteColor);
   align-self: flex-start;
 }
+
 
 .modal {
   display: flex;
@@ -273,9 +278,9 @@ body {
   text-align: center;
 }
 
-.modal-content input {
-  width: 100%;
-  padding: 0.4em 0;
+.rename-input{
+  width: calc(100% - 2em);
+  padding: 0.5em;
 }
 
 .modal-actions {
