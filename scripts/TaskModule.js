@@ -21,6 +21,7 @@ export default class Task {
   createHTML() {
     const task = document.createElement("div");
     task.classList.add("task");
+    task.setAttribute("data-task-id", this._taskID);
     task.innerHTML = `
               <div class="task-flex">
                 <div class="task-content">

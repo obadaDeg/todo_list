@@ -26,6 +26,10 @@ body {
   background-color: var(--button-text-color);
 }
 
+button {
+  cursor: pointer;
+}
+
 .content {
   padding: 0 1.5em;
 }
@@ -40,13 +44,14 @@ body {
   align-items: center;
   border: 0.11em solid var(--secondColor);
   border-radius: 0.2em;
+  padding: 0 2em;
 }
 
 .input-group {
   display: flex;
   justify-content: center;
   margin-top: 1em;
-  width: 95%;
+  width: 100%;
 }
 
 .input-group-icon {
@@ -79,12 +84,13 @@ body {
 
 .todo-input__submit,
 .filter-btn,
-.delete-btn {
+.delete-done-btn,
+.delete-all-btn {
   background-color: var(--mainColor);
   color: white;
   border: none;
   border-radius: 0.2em;
-  width: 95%;
+  width: 100%;
   padding: 0.6em 1em;
   margin: 1em;
 }
@@ -191,12 +197,13 @@ body {
   margin: 1em 0;
 }
 
-.delete-btn {
+.delete-done-btn,
+.delete-all-btn {
   background-color: var(--deleteColor);
   margin: 0;
 }
 
-.delete-btn:hover {
+.delete-done-btn:hover,.delete-all-btn:hover{
   background-color: var(--deleteColorHover);
 }
 
@@ -246,12 +253,13 @@ body {
   color: var(--deleteColor);
 }
 
-.error {
+.error, .rename-error{
   font-size: 0.8em;
-  margin: 0.5em 1.5em;
+  margin: 0.5em 0;
   color: var(--deleteColor);
   align-self: flex-start;
 }
+
 
 .modal {
   display: flex;
@@ -273,9 +281,9 @@ body {
   text-align: center;
 }
 
-.modal-content input {
-  width: 100%;
-  padding: 0.4em 0;
+.rename-input{
+  width: calc(100% - 2em);
+  padding: 0.5em;
 }
 
 .modal-actions {

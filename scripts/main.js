@@ -1,22 +1,31 @@
 import Task from "./TaskModule.js";
+import formValidator from "./formValidator.js";
 
 const tasksContainer = document.querySelector(".todo-list-container");
 const tasks = Task.loadTasks();
 const newTaskForm = document.querySelector(".input-container");
 const newTaskInput = newTaskForm.querySelector("#task-input");
 const errorMessege = document.querySelector(".error");
-const deleteAllTasksButtons = document.querySelectorAll(".delete-btn");
+const renameErrorMessege = document.querySelector(".rename-error");
+const deleteDoneTasksButton = document.querySelector(".delete-done-btn");
+const deleteAllTasksButton = document.querySelector(".delete-all-btn");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
 const filterType = ["all", "done", "todo"];
 const renameModal = document.getElementById("rename-modal");
 const deleteModal = document.getElementById("delete-modal");
+const deleteDoneModal = document.getElementById("delete-done-modal");
+const deleteAllModal = document.getElementById("delete-all-modal");
 const renameInput = document.getElementById("rename-input");
 const okBtn = document.getElementById("ok-btn");
 const saveBtn = document.getElementById("save-btn");
 const cancelBtn = document.getElementById("cancel-btn");
 const confirmBtn = document.getElementById("confirm-btn");
 const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+const cancelDeleteDoneBtn = document.getElementById("cancel-delete-done-btn");
+const cancelDeleteAllBtn = document.getElementById("cancel-delete-all-btn");
+const confirmAllBtn = document.getElementById("confirm-all-btn");
+const confirmDoneBtn = document.getElementById("confirm-done-btn");
 
 let currentTask = null;
 
@@ -36,6 +45,8 @@ const openDeleteModal = (task) => {
 const closeModals = () => {
   renameModal.classList.add("hidden");
   deleteModal.classList.add("hidden");
+  deleteDoneModal.classList.add("hidden");
+  deleteAllModal.classList.add("hidden");
   currentTask = null;
 };
 
@@ -47,27 +58,20 @@ const renderTasks = (tasks) => {
 };
 
 tasksContainer.addEventListener("click", (e) => {
+  const taskElement = e.target.closest(".task");
+  if (!taskElement) return;
+  const taskID = parseInt(taskElement.getAttribute("data-task-id"),10);
+  const task = tasks.find((t) => t._taskID === taskID);
+
   const modifyButton = e.target.closest(".task-modify");
   const deleteButton = e.target.closest(".task-delete");
   const checkbox = e.target.closest(".task-checkbox");
 
   if (modifyButton) {
-    const taskTitle = modifyButton
-      .closest(".task")
-      .querySelector(".task-text").textContent;
-    const task = tasks.find((t) => t.title === taskTitle);
     openRenameModal(task);
   } else if (deleteButton) {
-    const taskTitle = deleteButton
-      .closest(".task")
-      .querySelector(".task-text").textContent;
-    const task = tasks.find((t) => t.title === taskTitle);
     openDeleteModal(task);
   } else if (checkbox) {
-    const taskTitle = checkbox
-      .closest(".task")
-      .querySelector(".task-text").textContent;
-    const task = tasks.find((t) => t.title === taskTitle);
     task.toggle();
     Task.saveTasks(tasks);
     renderTasks(tasks);
@@ -76,22 +80,11 @@ tasksContainer.addEventListener("click", (e) => {
 
 newTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
-  if (!newTaskInput.value) {
-    errorMessege.textContent = "Please enter a task";
-    return;
-  } else if (
-    /^\d/.test(newTaskInput.value) ||
-    /^[!@#$%^&*(),.?":{}|<>_-]/.test(newTaskInput.value)
-  ) {
-    errorMessege.textContent =
-      "Task cannot start with a number or special character";
-    return;
-  } else if (newTaskInput.value.length < 5) {
-    errorMessege.textContent = "Task must be at least 5 characters long";
+  const validationError = formValidator.validateTaskInput(newTaskInput.value.trim());
+  if (validationError) {
+    errorMessege.innerHTML ='<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
     return;
   }
-
   errorMessege.textContent = "";
   const task = new Task(newTaskInput.value.trim());
   tasks.push(task);
@@ -116,18 +109,18 @@ filterButtons.forEach((button) => {
   });
 });
 
-deleteAllTasksButtons[0].addEventListener("click", () => {
-  tasks.forEach((task, index) => {
-    if (task.done) {
-      tasks.splice(index, 1);
-    }
-  });
+deleteAllTasksButton.addEventListener("click", (e) => {deleteAllModal.classList.remove("hidden");});
+deleteDoneTasksButton.addEventListener("click", (e) => {deleteDoneModal.classList.remove("hidden");});
 
+confirmDoneBtn.addEventListener("click", () => {
+  let tasks = Task.loadTasks();
+  tasks = tasks.filter((task) => !task.done);
   Task.saveTasks(tasks);
   renderTasks(tasks);
+  closeModals();
 });
 
-deleteAllTasksButtons[1].addEventListener("click", () => {
+confirmAllBtn.addEventListener("click", () => {
   Task.clearTasks();
 
   while (tasks.length > 0) {
@@ -135,10 +128,8 @@ deleteAllTasksButtons[1].addEventListener("click", () => {
   }
 
   renderTasks(tasks);
-  console.log(Task.loadTasks());
+  closeModals();
 });
-
-// asdf
 
 renameInput.addEventListener("input", () => {
   if (renameInput.value !== currentTask.title) {
@@ -155,6 +146,11 @@ renameInput.addEventListener("input", () => {
 okBtn.addEventListener("click", closeModals);
 
 saveBtn.addEventListener("click", () => {
+  const validationError = formValidator.validateTaskInput(renameInput.value.trim());
+  if (validationError) {
+    renameErrorMessege.innerHTML ='<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
+    return;
+  }
   okBtn.classList.remove("hidden");
   currentTask.edit(renameInput.value.trim());
   Task.saveTasks(tasks);
@@ -163,6 +159,7 @@ saveBtn.addEventListener("click", () => {
 });
 
 cancelBtn.addEventListener("click", () => {
+  renameErrorMessege.textContent = "";
   okBtn.classList.remove("hidden");
   closeModals();
 });
@@ -175,9 +172,11 @@ confirmBtn.addEventListener("click", () => {
 });
 
 cancelDeleteBtn.addEventListener("click", closeModals);
+cancelDeleteDoneBtn.addEventListener("click", closeModals);
+cancelDeleteAllBtn.addEventListener("click", closeModals);
 
 window.addEventListener("click", (e) => {
-  if (e.target === renameModal || e.target === deleteModal) {
+  if (e.target === renameModal || e.target === deleteModal || e.target === deleteDoneModal || e.target === deleteAllModal) {
     closeModals();
   }
 });
