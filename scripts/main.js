@@ -49,27 +49,20 @@ const renderTasks = (tasks) => {
 };
 
 tasksContainer.addEventListener("click", (e) => {
+  const taskElement = e.target.closest(".task");
+  if (!taskElement) return;
+  const taskID = parseInt(taskElement.getAttribute("data-task-id"),10);
+  const task = tasks.find((t) => t._taskID === taskID);
+
   const modifyButton = e.target.closest(".task-modify");
   const deleteButton = e.target.closest(".task-delete");
   const checkbox = e.target.closest(".task-checkbox");
 
   if (modifyButton) {
-    const taskTitle = modifyButton
-      .closest(".task")
-      .querySelector(".task-text").textContent;
-    const task = tasks.find((t) => t.title === taskTitle);
     openRenameModal(task);
   } else if (deleteButton) {
-    const taskTitle = deleteButton
-      .closest(".task")
-      .querySelector(".task-text").textContent;
-    const task = tasks.find((t) => t.title === taskTitle);
     openDeleteModal(task);
   } else if (checkbox) {
-    const taskTitle = checkbox
-      .closest(".task")
-      .querySelector(".task-text").textContent;
-    const task = tasks.find((t) => t.title === taskTitle);
     task.toggle();
     Task.saveTasks(tasks);
     renderTasks(tasks);

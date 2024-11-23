@@ -44,13 +44,14 @@ button {
   align-items: center;
   border: 0.11em solid var(--secondColor);
   border-radius: 0.2em;
+  padding: 0 2em;
 }
 
 .input-group {
   display: flex;
   justify-content: center;
   margin-top: 1em;
-  width: 95%;
+  width: 100%;
 }
 
 .input-group-icon {
@@ -88,7 +89,7 @@ button {
   color: white;
   border: none;
   border-radius: 0.2em;
-  width: 95%;
+  width: 100%;
   padding: 0.6em 1em;
   margin: 1em;
 }
@@ -252,7 +253,7 @@ button {
 
 .error, .rename-error{
   font-size: 0.8em;
-  margin: 0.5em 1.5em;
+  margin: 0.5em 0;
   color: var(--deleteColor);
   align-self: flex-start;
 }
