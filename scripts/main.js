@@ -113,12 +113,8 @@ deleteAllTasksButton.addEventListener("click", (e) => {deleteAllModal.classList.
 deleteDoneTasksButton.addEventListener("click", (e) => {deleteDoneModal.classList.remove("hidden");});
 
 confirmDoneBtn.addEventListener("click", () => {
-  tasks.forEach((task, index) => {
-    if (task.done) {
-      tasks.splice(index, 1);
-    }
-  });
-
+  let tasks = Task.loadTasks();
+  tasks = tasks.filter((task) => !task.done);
   Task.saveTasks(tasks);
   renderTasks(tasks);
   closeModals();
