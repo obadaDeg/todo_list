@@ -12,7 +12,7 @@ body,
   --secondColor: #c7c7c7;
   --modifyColor: #ffc207;
   --modifyColorHover: #dca707;
-  --deleteColor: #db3245;
+  --deleteColor: #DB3245;
   --deleteColorHover: #a52a3f;
   --checkboxColor: #0e7c26;
   --button-text-color: white;
@@ -31,7 +31,7 @@ button {
 }
 
 .content {
-  padding: 0 1.5em;
+  padding: 0 2em;
 }
 
 .header-title {
@@ -61,6 +61,11 @@ button {
   border-radius: 0.2em 0 0 0.2em;
 }
 
+.input-group-icon:hover {
+  background-color: var(--mainColorHover);
+  cursor: pointer;
+}
+
 .todo-input-field {
   border: 0.12em solid var(--secondColor);
   border-radius: 0 0.2em 0.2em 0;
@@ -86,19 +91,35 @@ button {
 .filter-btn,
 .delete-done-btn,
 .delete-all-btn {
-  background-color: var(--mainColor);
-  color: white;
+  position: relative;
+  color: var(--button-text-color);
   border: none;
   border-radius: 0.2em;
+  background-color: var(--mainColor);
   width: 100%;
   padding: 0.6em 1em;
+  overflow: hidden;
+  transition:transform 0.3s ease ,box-shadow 0.3s ease;
   margin: 1em;
 }
 
-.filter-btn:hover,
-.todo-input__submit:hover,
-.input-group-icon:hover {
+.shared-hover:hover,.shared-hover:focus {
   background-color: var(--mainColorHover);
+  transform: translateY(-0.2em);
+  box-shadow: 0 0.5em 1em rgba(0, 217, 255, 0.3);
+}
+
+
+.delete-done-btn,
+.delete-all-btn {
+  background-color: var(--deleteColor);
+  margin: 0;
+}
+
+.shared-delete-hover:hover {
+  background-color: var(--deleteColorHover);
+  transform: translateY(-0.2em);
+  box-shadow: 0 0.5em 1em rgba(255, 8, 8, 0.3);
 }
 
 /*Section 2*/
@@ -197,16 +218,6 @@ button {
   margin: 1em 0;
 }
 
-.delete-done-btn,
-.delete-all-btn {
-  background-color: var(--deleteColor);
-  margin: 0;
-}
-
-.delete-done-btn:hover,.delete-all-btn:hover{
-  background-color: var(--deleteColorHover);
-}
-
 .task-checkbox {
   appearance: none;
   width: 1em;
@@ -234,7 +245,7 @@ button {
 
 .task:has(.task-operations input[type="checkbox"]:checked) .task-text {
   text-decoration: line-through;
-  color: #953e3e;
+  color: var(--deleteColor);
 }
 
 .task-operations input[type="checkbox"]:checked::before {
@@ -259,7 +270,6 @@ button {
   color: var(--deleteColor);
   align-self: flex-start;
 }
-
 
 .modal {
   display: flex;
@@ -308,11 +318,26 @@ button {
   color: white;
 }
 
+.save-btn:hover,
+.ok-btn:hover {
+  background-color: var(--mainColorHover);
+} 
+
 .cancel-btn {
   background-color: var(--deleteColor);
   color: white;
 }
 
+.cancel-btn:hover {
+  background-color: var(--deleteColorHover);
+}
+
+.confirm-btn:hover {
+  background-color: var(--secondColor);
+}
+
 .hidden {
   display: none;
 }
+
+
