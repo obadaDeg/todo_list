@@ -12,6 +12,8 @@ const deleteAllTasksButton = document.querySelector(".delete-all-btn");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
 const filterType = ["all", "done", "todo"];
+let currentFilter = "all";
+
 const renameModal = document.getElementById("rename-modal");
 const deleteModal = document.getElementById("delete-modal");
 const deleteDoneModal = document.getElementById("delete-done-modal");
@@ -60,7 +62,7 @@ const renderTasks = (tasks) => {
 tasksContainer.addEventListener("click", (e) => {
   const taskElement = e.target.closest(".task");
   if (!taskElement) return;
-  const taskID = parseInt(taskElement.getAttribute("data-task-id"),10);
+  const taskID = parseInt(taskElement.getAttribute("data-task-id"), 10);
   const task = tasks.find((t) => t._taskID === taskID);
 
   const modifyButton = e.target.closest(".task-modify");
@@ -74,15 +76,21 @@ tasksContainer.addEventListener("click", (e) => {
   } else if (checkbox) {
     task.toggle();
     Task.saveTasks(tasks);
-    renderTasks(tasks);
+    const filteredTasks = Task.filterTasks(tasks, currentFilter); 
+    renderTasks(filteredTasks);
+    updateButtonStates();
   }
 });
 
+
 newTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const validationError = formValidator.validateTaskInput(newTaskInput.value.trim());
+  const validationError = formValidator.validateTaskInput(
+    newTaskInput.value.trim()
+  );
   if (validationError) {
-    errorMessege.innerHTML ='<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
+    errorMessege.innerHTML =
+      '<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
     return;
   }
   errorMessege.textContent = "";
@@ -90,6 +98,7 @@ newTaskForm.addEventListener("submit", (e) => {
   tasks.push(task);
   Task.saveTasks(tasks);
   renderTasks(tasks);
+  updateButtonStates();
   newTaskInput.value = "";
 });
 
@@ -103,21 +112,53 @@ filterButtons.forEach((button, index) => {
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const filterType = button.dataset.filter;
-    const filteredTasks = Task.filterTasks(tasks, filterType);
+    currentFilter = button.dataset.filter;
+    const filteredTasks = Task.filterTasks(tasks, currentFilter);
     renderTasks(filteredTasks);
   });
 });
 
-deleteAllTasksButton.addEventListener("click", (e) => {deleteAllModal.classList.remove("hidden");});
-deleteDoneTasksButton.addEventListener("click", (e) => {deleteDoneModal.classList.remove("hidden");});
+deleteAllTasksButton.addEventListener("click", (e) => {
+  deleteAllModal.classList.remove("hidden");
+});
+deleteDoneTasksButton.addEventListener("click", (e) => {
+  deleteDoneModal.classList.remove("hidden");
+});
+
+const updateButtonStates = () => {
+  const hasTasks = tasks.length > 0;
+  const hasDoneTasks = tasks.some((task) => task.done);
+
+  deleteAllTasksButton.disabled = !hasTasks;
+  deleteDoneTasksButton.disabled = !hasDoneTasks;
+
+  deleteAllTasksButton.classList.toggle("disabled", !hasTasks);
+  deleteDoneTasksButton.classList.toggle("disabled", !hasDoneTasks);
+};
+
+
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeModals();
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "/") {
+    e.preventDefault();
+    newTaskInput.select();
+
+  }
+});
 
 confirmDoneBtn.addEventListener("click", () => {
-  let tasks = Task.loadTasks();
-  tasks = tasks.filter((task) => !task.done);
+  let filteredTasks = tasks.filter((task) => !task.done);
+  tasks.splice(0, tasks.length, ...filteredTasks);
   Task.saveTasks(tasks);
   renderTasks(tasks);
   closeModals();
+  updateButtonStates();
 });
 
 confirmAllBtn.addEventListener("click", () => {
@@ -129,6 +170,7 @@ confirmAllBtn.addEventListener("click", () => {
 
   renderTasks(tasks);
   closeModals();
+  updateButtonStates();
 });
 
 renameInput.addEventListener("input", () => {
@@ -146,9 +188,12 @@ renameInput.addEventListener("input", () => {
 okBtn.addEventListener("click", closeModals);
 
 saveBtn.addEventListener("click", () => {
-  const validationError = formValidator.validateTaskInput(renameInput.value.trim());
+  const validationError = formValidator.validateTaskInput(
+    renameInput.value.trim()
+  );
   if (validationError) {
-    renameErrorMessege.innerHTML ='<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
+    renameErrorMessege.innerHTML =
+      '<i class="fa-solid fa-circle-exclamation"></i>' + validationError;
     return;
   }
   okBtn.classList.remove("hidden");
@@ -176,7 +221,12 @@ cancelDeleteDoneBtn.addEventListener("click", closeModals);
 cancelDeleteAllBtn.addEventListener("click", closeModals);
 
 window.addEventListener("click", (e) => {
-  if (e.target === renameModal || e.target === deleteModal || e.target === deleteDoneModal || e.target === deleteAllModal) {
+  if (
+    e.target === renameModal ||
+    e.target === deleteModal ||
+    e.target === deleteDoneModal ||
+    e.target === deleteAllModal
+  ) {
     closeModals();
   }
 });
